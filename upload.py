@@ -9,18 +9,15 @@ import panoptes_client
 from panoptes_client import SubjectSet, Subject, Project, Panoptes
 import pandas as pd
 
-with open('login.json', 'r') as f:
+with open('../login.json', 'r') as f:
     zooniverse_login = json.load(f)
 Panoptes.connect(**zooniverse_login)
 
 #Project id (dummy project 7931) or Galaxy Zoo (galaxy_zoo_id == '5733')
 project = Project("7931")
 
-with open('test.json') as json_file:
+with open('../test.json') as json_file:
     data = json.load(json_file)
-
-key_data = pd.read_csv('EAGLE_subset/test_manifest.csv')
-
 
 while True:
     location = '/Users/skruk/Documents/Work_in_progress/EAGLE_zoo/EAGLE_subset'
@@ -84,7 +81,6 @@ except StopIteration:
 print('Uploading subjects, this could take a while!')
 new_subjects = 0
 for filename, metadata in tqdm.tqdm(subject_metadata.items()):
-    print(filename)
     try:
         if filename not in previous_subjects:
             subject = Subject()
@@ -107,6 +103,5 @@ with open(location + os.sep + 'Uploaded subjects.csv', 'wt') as file_up:
     subject_set = SubjectSet.where(project_id=project.id, display_name=set_name).next()
     for subject in subject_set.subjects:
         uploaded += 1
-        print(subject.metadata.values())
         file_up.write(subject.id + ',' + list(subject.metadata.values())[1] + '\n')
     print(uploaded, ' subjects found in the subject set, see the full list in Uploaded subjects.csv.')
