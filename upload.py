@@ -1,5 +1,3 @@
-""" This version is written in Python 3.7"""
-
 import json
 import os
 import io
@@ -16,7 +14,7 @@ Panoptes.connect(**zooniverse_login)
 #Project id (dummy project 7931) or Galaxy Zoo (galaxy_zoo_id == '5733')
 project = Project("7931")
 
-with open('../test.json') as json_file:
+with open('../manifest_eagle.json') as json_file:
     data = json.load(json_file)
 
 while True:
@@ -43,7 +41,7 @@ subject_metadata = {}
 
 for key, entry in data["#img_name"].items():
         print(entry)
-        subject_metadata[entry] = {'Filename': entry}
+        subject_metadata[entry] = {'!Filename': entry}
         for k in data.keys():
             subject_metadata[entry][k] = data[k][str(i)]
         subject_metadata[entry]['metadata_message'] = 'Metadata is available in [Talk](+tab+https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/talk)'
